@@ -1,11 +1,12 @@
-// require packages
+// Require packages
 const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config()
-const {PORT, BASE_URL} = process.env
-const app = express();
+const {PORT, BASE_URL, DB_URL} = process.env
+const Mongo = require("./config/mongo.config");
 
-// installing packages
+// initialize packages
+const app = express();
 // parse application/x-www-form-urlenconded
 app.use(bodyParser.urlencoded({extended: false}))
 
@@ -20,6 +21,7 @@ app.use("/api", require("./routes/home.route"));
 // })
 
 // Starter server
-app.listen(PORT || 3000, ()=>{
-    console.log(`the server is running on port ${BASE_URL}:${PORT}`)
+app.listen(PORT || 3000, async ()=>{
+ Mongo(DB_URL)
+    console.log(`the server is running on port ${BASE_URL}:${PORT}`);
 });
